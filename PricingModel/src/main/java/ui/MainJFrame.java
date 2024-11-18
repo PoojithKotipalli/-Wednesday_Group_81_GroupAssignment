@@ -25,11 +25,12 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private Business business;
     private JPanel blankPanel;
+
     /**
      * Creates new form MainJFrame
      */
     public MainJFrame(Business business) {
-        this.business = business; 
+        this.business = business;
         initComponents();
         initializePanels();
         initializeBlankPanel();
@@ -211,7 +212,6 @@ public class MainJFrame extends javax.swing.JFrame {
                 finalReportPanel
         );
 
-        
         ContentPanel.add("BrowsePricePanel", browsePricePanel);
         ContentPanel.add("AdjustPricesPanel", adjustPricesPanel);
         ContentPanel.add("SimulationPanel", simulationPanel);
@@ -220,18 +220,18 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     private void initializeBlankPanel() {
-    blankPanel = new JPanel();
-    blankPanel.setLayout(new BorderLayout());
+        blankPanel = new JPanel();
+        blankPanel.setLayout(new BorderLayout());
 
-    blankPanel.setBackground(new Color(204, 255, 255));
+        blankPanel.setBackground(new Color(204, 255, 255));
 
-    JLabel welcomeLabel = new JLabel("Welcome! Please select an option from the navigation panel.", JLabel.CENTER);
-    welcomeLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        JLabel welcomeLabel = new JLabel("Welcome! Please select an option from the navigation panel.", JLabel.CENTER);
+        welcomeLabel.setFont(new Font("Arial", Font.PLAIN, 16));
 
-    blankPanel.add(welcomeLabel, BorderLayout.CENTER);
-    ContentPanel.add(blankPanel, "BlankPanel");
+        blankPanel.add(welcomeLabel, BorderLayout.CENTER);
+        ContentPanel.add(blankPanel, "BlankPanel");
 
-    CardLayout cardLayout = (CardLayout) ContentPanel.getLayout();
-    cardLayout.show(ContentPanel, "BlankPanel");
-}
+        CardLayout cardLayout = (CardLayout) ContentPanel.getLayout();
+        cardLayout.show(ContentPanel, "BlankPanel");
+    }
 }
