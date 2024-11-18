@@ -133,6 +133,29 @@ public class SimulationPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 
+   public void refreshData() {
+    DefaultTableModel model = (DefaultTableModel) SimulationTable.getModel();
+    model.setRowCount(0); 
+
+    for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
+        for (Product product : supplier.getProductCatalog().getProductList()) {
+            double targetPrice = product.getTargetPrice();
+            double revenue = targetPrice * product.getSalesVolume(); 
+            double profitMargin = revenue - (product.getFloorPrice() * product.getSalesVolume());
+
+            Object[] row = {
+                product.getName(),         
+                targetPrice,               
+                product.getSalesVolume(),  
+                revenue,                   
+                profitMargin               /
+            };
+            model.addRow(row);
+        }
+    }
+}
+
+
 
 
 }
