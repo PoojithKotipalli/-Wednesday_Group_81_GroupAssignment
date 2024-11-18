@@ -196,4 +196,42 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane1;
     // End of variables declaration//GEN-END:variables
 
+    private void initializePanels() {
+        // Instantiate the panels
+        BrowsePricePanel browsePricePanel = new BrowsePricePanel(business);
+        SimulationPanel simulationPanel = new SimulationPanel(business);
+        MaximizeProfitPanel maximizeProfitPanel = new MaximizeProfitPanel(business);
+        FinalReportPanel finalReportPanel = new FinalReportPanel(business);
+
+        AdjustPricesPanel adjustPricesPanel = new AdjustPricesPanel(
+                business,
+                simulationPanel,
+                maximizeProfitPanel,
+                browsePricePanel,
+                finalReportPanel
+        );
+
+        
+        ContentPanel.add("BrowsePricePanel", browsePricePanel);
+        ContentPanel.add("AdjustPricesPanel", adjustPricesPanel);
+        ContentPanel.add("SimulationPanel", simulationPanel);
+        ContentPanel.add("MaximizeProfitPanel", maximizeProfitPanel);
+        ContentPanel.add("FinalReportPanel", finalReportPanel);
+    }
+
+    private void initializeBlankPanel() {
+    blankPanel = new JPanel();
+    blankPanel.setLayout(new BorderLayout());
+
+    blankPanel.setBackground(new Color(204, 255, 255));
+
+    JLabel welcomeLabel = new JLabel("Welcome! Please select an option from the navigation panel.", JLabel.CENTER);
+    welcomeLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+
+    blankPanel.add(welcomeLabel, BorderLayout.CENTER);
+    ContentPanel.add(blankPanel, "BlankPanel");
+
+    CardLayout cardLayout = (CardLayout) ContentPanel.getLayout();
+    cardLayout.show(ContentPanel, "BlankPanel");
+}
 }
