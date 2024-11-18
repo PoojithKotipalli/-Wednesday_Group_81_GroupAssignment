@@ -180,7 +180,16 @@ public class BrowsePricePanel extends javax.swing.JPanel {
     }
 }
 
-   
+       private void populateSupplierFilter() {
+        SupplierFilterBox.removeAllItems();
+        SupplierFilterBox.addItem("All Suppliers"); 
+
+        
+        for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
+            SupplierFilterBox.addItem(supplier.getName());
+        }
+    }
+
 }
     
 
