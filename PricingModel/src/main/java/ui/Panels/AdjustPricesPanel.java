@@ -225,7 +225,26 @@ public class AdjustPricesPanel extends javax.swing.JPanel {
     }
 }
 
-   
+      private void saveChanges() {
+        applyAdjustments();
+
+        // Notify other panels to refresh their data
+        if (simulationPanel != null) {
+            simulationPanel.refreshData();
+        }
+        if (maximizeProfitPanel != null) {
+            maximizeProfitPanel.refreshData();
+        }
+        if (browsePricePanel != null) {
+            browsePricePanel.refreshData(); 
+        }
+        if (finalReportPanel != null) {
+            finalReportPanel.refreshData(); 
+        }
+
+        JOptionPane.showMessageDialog(this, "Changes saved successfully!");
+    }
+
 }
 
 
