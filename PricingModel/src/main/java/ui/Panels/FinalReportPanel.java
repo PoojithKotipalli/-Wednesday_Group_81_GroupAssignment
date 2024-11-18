@@ -23,7 +23,9 @@ public class FinalReportPanel extends javax.swing.JPanel {
      * Creates new form FinalReportPanel
      */
     public FinalReportPanel(Business business) {
-        
+        this.business = business;
+        initComponents();
+        refreshData();
     }
 
     /**
