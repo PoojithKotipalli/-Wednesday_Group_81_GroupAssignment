@@ -182,5 +182,26 @@ public class MaximizeProfitPanel extends javax.swing.JPanel {
         DisplayResultsArea.setText("");
     }
 
-    
+    public void refreshData() {
+        DefaultTableModel model = (DefaultTableModel) MaximizeProfitTable.getModel();
+        model.setRowCount(0);
+
+        for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
+            for (Product product : supplier.getProductCatalog().getProductList()) {
+                int salesAboveTarget = product.getNumberOfProductSalesAboveTarget();
+                int salesBelowTarget = product.getNumberOfProductSalesBelowTarget();
+
+                double profitMargin = product.getProfitMargin();
+
+                Object[] row = {
+                    product.getName(),
+                    product.getFloorPrice(),
+                    product.getTargetPrice(), 
+                    salesAboveTarget + salesBelowTarget,
+                    profitMargin > 0 ? profitMargin : 0
+                };
+                model.addRow(row);
+            }
+        }
+    }
 }
