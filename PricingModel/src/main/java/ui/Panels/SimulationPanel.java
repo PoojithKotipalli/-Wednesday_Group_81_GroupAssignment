@@ -157,5 +157,38 @@ public class SimulationPanel extends javax.swing.JPanel {
 
 
 
+    private void runSimulation() {
+        try {
+            DefaultTableModel model = (DefaultTableModel) SimulationTable.getModel();
+            model.setRowCount(0);
+
+            double totalRevenue = 0.0;
+
+            for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
+                for (Product product : supplier.getProductCatalog().getProductList()) {
+                    double adjustedPrice = product.getTargetPrice();
+                    double projectedRevenue = adjustedPrice * product.getSalesVolume();
+                    double profitMargin = projectedRevenue - (product.getFloorPrice() * product.getSalesVolume());
+                    
+                    totalRevenue += projectedRevenue;
+
+                    model.addRow(new Object[] {
+                        product.getName(),
+                        product.getFloorPrice(),
+                        adjustedPrice,
+                        projectedRevenue,
+                        profitMargin
+                    });
+                }
+            }
+
+            SimulationResults.setText("Total Projected Revenue: $" + String.format("%.2f", totalRevenue));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error running simulation: " + e.getMessage());
+        }
+    }
+
+   
+    
 
 }
