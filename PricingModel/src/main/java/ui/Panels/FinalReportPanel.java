@@ -111,7 +111,7 @@ public class FinalReportPanel extends javax.swing.JPanel {
 
     private void GenerateReportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateReportBtnActionPerformed
         // TODO add your handling code here:
-        refreshData();
+       
     }//GEN-LAST:event_GenerateReportBtnActionPerformed
 
     private void ResetReportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetReportBtnActionPerformed
@@ -127,5 +127,11 @@ public class FinalReportPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
+    private void resetReport() {
+        DefaultTableModel model = (DefaultTableModel) FinalReportTable.getModel();
+        model.setRowCount(0); 
+        JOptionPane.showMessageDialog(this, "Report reset successfully!");
+    }
 
+    
 }
