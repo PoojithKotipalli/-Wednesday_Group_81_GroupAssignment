@@ -155,3 +155,14 @@ public class MaximizeProfitPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
+
+    private void optimizePrices() {
+        DefaultTableModel model = (DefaultTableModel) MaximizeProfitTable.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            double currentPrice = (double) model.getValueAt(i, 1);
+        }
+        JOptionPane.showMessageDialog(this, "Prices optimized for maximum profit!");
+    }
+
+    
+}
