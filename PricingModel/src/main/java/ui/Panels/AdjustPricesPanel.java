@@ -154,6 +154,40 @@ public class AdjustPricesPanel extends javax.swing.JPanel {
     private javax.swing.JButton SaveBtn;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+    private void populateTable(String mode) {
+    DefaultTableModel model = (DefaultTableModel) AdjustPricesTable.getModel();
+    model.setRowCount(0); // Clear existing rows
+
+    for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
+        for (Product product : supplier.getProductCatalog().getProductList()) {
+            // Always use the saved Target Price from the Product object
+            double currentTargetPrice = product.getTargetPrice();
+            double adjustedTargetPrice;
+
+            if (mode.equals("Lower Prices") && currentTargetPrice > product.getFloorPrice()) {
+                adjustedTargetPrice = Math.max(currentTargetPrice - 5.0, product.getFloorPrice());
+            } else if (mode.equals("Higher Prices") && currentTargetPrice < product.getCeilingPrice()) {
+                adjustedTargetPrice = Math.min(currentTargetPrice + 5.0, product.getCeilingPrice());
+            } else {
+                // Skip products that do not need adjustment in the selected mode
+                continue;
+            }
+
+            // Populate the table
+            Object[] row = {
+                product.getName(),                      // Product Name
+                supplier.getName(),                     // Supplier Name
+                product.getFloorPrice(),               // Actual Price (unchanged)
+                currentTargetPrice,                     // Current Target Price
+                mode.equals("Lower Prices") ? 
+                    product.getNumberOfProductSalesBelowTarget() : 
+                    product.getNumberOfProductSalesAboveTarget(), // Sales Below/Above Target
+                adjustedTargetPrice                     // Adjusted Target Price
+            };
+            model.addRow(row);
+        }
+    }
+}
 
    
 }
