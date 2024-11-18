@@ -120,7 +120,7 @@ public class SimulationPanel extends javax.swing.JPanel {
 
     private void ResetSimulationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetSimulationBtnActionPerformed
         // TODO add your handling code here:
-        
+        resetSimulation();
     }//GEN-LAST:event_ResetSimulationBtnActionPerformed
 
 
