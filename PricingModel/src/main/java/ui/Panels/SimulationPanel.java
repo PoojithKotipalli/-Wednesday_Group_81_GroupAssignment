@@ -188,7 +188,11 @@ public class SimulationPanel extends javax.swing.JPanel {
         }
     }
 
-   
+    private void resetSimulation() {
+        ((DefaultTableModel) SimulationTable.getModel()).setRowCount(0);
+        SimulationResults.setText("");
+    }
+
     
 
 }
