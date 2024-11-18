@@ -189,6 +189,42 @@ public class AdjustPricesPanel extends javax.swing.JPanel {
     }
 }
 
+        private void applyAdjustments() {
+    DefaultTableModel model = (DefaultTableModel) AdjustPricesTable.getModel();
+    int rowCount = model.getRowCount();
+
+    for (int i = 0; i < rowCount; i++) {
+        String productName = (String) model.getValueAt(i, 0);
+        double newTargetPrice = (double) model.getValueAt(i, 5); // Adjusted target price column
+
+        for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
+            for (Product product : supplier.getProductCatalog().getProductList()) {
+                if (product.getName().equals(productName)) {
+                    // Update only the Target Price
+                    product.setTargetPrice(newTargetPrice);
+
+                    // Debug log
+                    System.out.println("Updated Target Price for " + product.getName() + ": " + product.getTargetPrice());
+
+                    // Calculate dynamically for reporting purposes
+                    int salesBelowTarget = product.getNumberOfProductSalesBelowTarget();
+                    int salesAboveTarget = product.getNumberOfProductSalesAboveTarget();
+                    double revenueBefore = product.getActualPrice() * product.getSalesVolume(); // Based on Actual Price
+                    double revenueAfter = newTargetPrice * product.getSalesVolume(); // Based on updated Target Price
+
+                    // Update dynamic values for FinalReportPanel
+                    product.setSalesBelowTarget(salesBelowTarget);
+                    product.setSalesAboveTarget(salesAboveTarget);
+                    product.setRevenueBeforeAdjustment(revenueBefore);
+                    product.setRevenueAfterAdjustment(revenueAfter);
+
+                    break;
+                }
+            }
+        }
+    }
+}
+
    
 }
 
