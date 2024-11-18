@@ -14,7 +14,9 @@ import model.Supplier.Supplier;
  * @author Poojith K
  */
 public class BrowsePricePanel extends javax.swing.JPanel {
+
     private Business business;
+
     /**
      * Creates new form BrowsePricePanel
      */
@@ -23,12 +25,13 @@ public class BrowsePricePanel extends javax.swing.JPanel {
         initComponents();
         populateTable();
         populateSupplierFilter();
-        
+
     }
 
     public void refreshTable() {
-        populateTable(); 
+        populateTable();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -155,74 +158,79 @@ public class BrowsePricePanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
     private void populateTable() {
-    DefaultTableModel model = (DefaultTableModel) PriceTabel.getModel();
-    model.setRowCount(0); 
-
-    for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
-        for (Product product : supplier.getProductCatalog().getProductList()) {
-            
-            double actualPrice = product.getActualPrice(); 
-            double targetPrice = product.getTargetPrice(); 
-
-            
-            double totalSalesRevenue = targetPrice * product.getSalesVolume();
-
-            Object[] row = {
-                product.getName(),           
-                supplier.getName(),          
-                product.getFloorPrice(),     
-                targetPrice,                 
-                product.getSalesVolume(),    
-                totalSalesRevenue            
-            };
-            model.addRow(row);
-        }
-    }
-}
-
-       private void populateSupplierFilter() {
-        SupplierFilterBox.removeAllItems();
-        SupplierFilterBox.addItem("All Suppliers"); 
-
-        
-        for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
-            SupplierFilterBox.addItem(supplier.getName());
-        }
-    }
-       
-           private void applyFilters() {
         DefaultTableModel model = (DefaultTableModel) PriceTabel.getModel();
-        model.setRowCount(0); 
-
-        String selectedSupplier = SupplierFilterBox.getSelectedItem().toString();
-        String searchQuery = SearchTxt.getText().trim().toLowerCase();
+        model.setRowCount(0);
 
         for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
-            if (!selectedSupplier.equals("All Suppliers") && !supplier.getName().equals(selectedSupplier)) {
-                continue; 
-            }
-
             for (Product product : supplier.getProductCatalog().getProductList()) {
-                if (!searchQuery.isEmpty() && !product.getName().toLowerCase().contains(searchQuery)) {
-                    continue; 
-                }
 
-                
-                double totalSalesRevenue = product.getActualPrice() * product.getSalesVolume();
+                double actualPrice = product.getActualPrice();
+                double targetPrice = product.getTargetPrice();
+
+                double totalSalesRevenue = targetPrice * product.getSalesVolume();
 
                 Object[] row = {
-                    product.getName(),           
-                    supplier.getName(),          
-                    product.getActualPrice(),    
-                    product.getTargetPrice(),    
-                    product.getSalesVolume(),    
-                    totalSalesRevenue            
+                    product.getName(),
+                    supplier.getName(),
+                    product.getFloorPrice(),
+                    targetPrice,
+                    product.getSalesVolume(),
+                    totalSalesRevenue
                 };
                 model.addRow(row);
             }
         }
     }
 
-}
-    
+    private void populateSupplierFilter() {
+        SupplierFilterBox.removeAllItems();
+        SupplierFilterBox.addItem("All Suppliers");
 
+        for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
+            SupplierFilterBox.addItem(supplier.getName());
+        }
+    }
+
+    private void applyFilters() {
+        DefaultTableModel model = (DefaultTableModel) PriceTabel.getModel();
+        model.setRowCount(0);
+
+        String selectedSupplier = SupplierFilterBox.getSelectedItem().toString();
+        String searchQuery = SearchTxt.getText().trim().toLowerCase();
+
+        for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
+            if (!selectedSupplier.equals("All Suppliers") && !supplier.getName().equals(selectedSupplier)) {
+                continue;
+            }
+
+            for (Product product : supplier.getProductCatalog().getProductList()) {
+                if (!searchQuery.isEmpty() && !product.getName().toLowerCase().contains(searchQuery)) {
+                    continue;
+                }
+
+                double totalSalesRevenue = product.getActualPrice() * product.getSalesVolume();
+
+                Object[] row = {
+                    product.getName(),
+                    supplier.getName(),
+                    product.getActualPrice(),
+                    product.getTargetPrice(),
+                    product.getSalesVolume(),
+                    totalSalesRevenue
+                };
+                model.addRow(row);
+            }
+        }
+    }
+
+    private void clearFilters() {
+        SearchTxt.setText(""); // Clear search text
+        SupplierFilterBox.setSelectedIndex(0); // Reset supplier filter
+        populateTable(); // Reload all data
+    }
+
+    public void refreshData() {
+        populateTable(); // Refresh table with updated data
+    }
+
+}
