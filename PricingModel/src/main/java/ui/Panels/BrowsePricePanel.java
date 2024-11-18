@@ -189,6 +189,16 @@ public class BrowsePricePanel extends javax.swing.JPanel {
             SupplierFilterBox.addItem(supplier.getName());
         }
     }
+       
+           private void applyFilters() {
+        DefaultTableModel model = (DefaultTableModel) PriceTabel.getModel();
+        model.setRowCount(0); 
+
+        String selectedSupplier = SupplierFilterBox.getSelectedItem().toString();
+        String searchQuery = SearchTxt.getText().trim().toLowerCase();
+
+        
+    }
 
 }
     
