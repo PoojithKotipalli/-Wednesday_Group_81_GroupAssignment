@@ -115,7 +115,7 @@ public class SimulationPanel extends javax.swing.JPanel {
 
     private void RunSimulationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunSimulationBtnActionPerformed
         // TODO add your handling code here:
-        
+        runSimulation();
     }//GEN-LAST:event_RunSimulationBtnActionPerformed
 
     private void ResetSimulationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetSimulationBtnActionPerformed
