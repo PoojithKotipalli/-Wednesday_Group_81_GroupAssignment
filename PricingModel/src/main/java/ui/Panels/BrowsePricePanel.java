@@ -197,7 +197,30 @@ public class BrowsePricePanel extends javax.swing.JPanel {
         String selectedSupplier = SupplierFilterBox.getSelectedItem().toString();
         String searchQuery = SearchTxt.getText().trim().toLowerCase();
 
-        
+        for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
+            if (!selectedSupplier.equals("All Suppliers") && !supplier.getName().equals(selectedSupplier)) {
+                continue; 
+            }
+
+            for (Product product : supplier.getProductCatalog().getProductList()) {
+                if (!searchQuery.isEmpty() && !product.getName().toLowerCase().contains(searchQuery)) {
+                    continue; 
+                }
+
+                
+                double totalSalesRevenue = product.getActualPrice() * product.getSalesVolume();
+
+                Object[] row = {
+                    product.getName(),           
+                    supplier.getName(),          
+                    product.getActualPrice(),    
+                    product.getTargetPrice(),    
+                    product.getSalesVolume(),    
+                    totalSalesRevenue            
+                };
+                model.addRow(row);
+            }
+        }
     }
 
 }
