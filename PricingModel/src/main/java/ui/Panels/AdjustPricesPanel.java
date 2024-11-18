@@ -158,11 +158,10 @@ public class AdjustPricesPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     private void populateTable(String mode) {
         DefaultTableModel model = (DefaultTableModel) AdjustPricesTable.getModel();
-        model.setRowCount(0); // Clear existing rows
+        model.setRowCount(0); 
 
         for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
             for (Product product : supplier.getProductCatalog().getProductList()) {
-                // Always use the saved Target Price from the Product object
                 double currentTargetPrice = product.getTargetPrice();
                 double adjustedTargetPrice;
 
@@ -171,20 +170,18 @@ public class AdjustPricesPanel extends javax.swing.JPanel {
                 } else if (mode.equals("Higher Prices") && currentTargetPrice < product.getCeilingPrice()) {
                     adjustedTargetPrice = Math.min(currentTargetPrice + 5.0, product.getCeilingPrice());
                 } else {
-                    // Skip products that do not need adjustment in the selected mode
                     continue;
                 }
 
-                // Populate the table
                 Object[] row = {
-                    product.getName(), // Product Name
-                    supplier.getName(), // Supplier Name
-                    product.getFloorPrice(), // Actual Price (unchanged)
-                    currentTargetPrice, // Current Target Price
+                    product.getName(), 
+                    supplier.getName(), 
+                    product.getFloorPrice(), 
+                    currentTargetPrice, 
                     mode.equals("Lower Prices")
                     ? product.getNumberOfProductSalesBelowTarget()
-                    : product.getNumberOfProductSalesAboveTarget(), // Sales Below/Above Target
-                    adjustedTargetPrice // Adjusted Target Price
+                    : product.getNumberOfProductSalesAboveTarget(), 
+                    adjustedTargetPrice 
                 };
                 model.addRow(row);
             }
@@ -197,24 +194,21 @@ public class AdjustPricesPanel extends javax.swing.JPanel {
 
         for (int i = 0; i < rowCount; i++) {
             String productName = (String) model.getValueAt(i, 0);
-            double newTargetPrice = (double) model.getValueAt(i, 5); // Adjusted target price column
+            double newTargetPrice = (double) model.getValueAt(i, 5); 
 
             for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
                 for (Product product : supplier.getProductCatalog().getProductList()) {
                     if (product.getName().equals(productName)) {
-                        // Update only the Target Price
                         product.setTargetPrice(newTargetPrice);
 
-                        // Debug log
                         System.out.println("Updated Target Price for " + product.getName() + ": " + product.getTargetPrice());
 
-                        // Calculate dynamically for reporting purposes
                         int salesBelowTarget = product.getNumberOfProductSalesBelowTarget();
                         int salesAboveTarget = product.getNumberOfProductSalesAboveTarget();
-                        double revenueBefore = product.getActualPrice() * product.getSalesVolume(); // Based on Actual Price
-                        double revenueAfter = newTargetPrice * product.getSalesVolume(); // Based on updated Target Price
+                        double revenueBefore = product.getActualPrice() * product.getSalesVolume(); 
+                        double revenueAfter = newTargetPrice * product.getSalesVolume(); 
 
-                        // Update dynamic values for FinalReportPanel
+                        
                         product.setSalesBelowTarget(salesBelowTarget);
                         product.setSalesAboveTarget(salesAboveTarget);
                         product.setRevenueBeforeAdjustment(revenueBefore);
@@ -230,7 +224,7 @@ public class AdjustPricesPanel extends javax.swing.JPanel {
     private void saveChanges() {
         applyAdjustments();
 
-        // Notify other panels to refresh their data
+     
         if (simulationPanel != null) {
             simulationPanel.refreshData();
         }
@@ -251,13 +245,13 @@ public class AdjustPricesPanel extends javax.swing.JPanel {
         for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
             for (Product product : supplier.getProductCatalog().getProductList()) {
                 if (product.getName().equals(productName)) {
-                    product.setTargetPrice(newTargetPrice); // Update Target Price
+                    product.setTargetPrice(newTargetPrice); 
                     break;
                 }
             }
         }
 
-        // Refresh the table with the updated prices
+       
         populateTable((String) ModeComboBox.getSelectedItem());
     }
 
