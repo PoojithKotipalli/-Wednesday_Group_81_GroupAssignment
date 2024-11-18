@@ -180,7 +180,8 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void FinalReportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinalReportBtnActionPerformed
         // TODO add your handling code here:
-       
+        java.awt.CardLayout card = (java.awt.CardLayout) ContentPanel.getLayout();
+        card.show(ContentPanel, "FinalReportPanel");
     }//GEN-LAST:event_FinalReportBtnActionPerformed
 
 
