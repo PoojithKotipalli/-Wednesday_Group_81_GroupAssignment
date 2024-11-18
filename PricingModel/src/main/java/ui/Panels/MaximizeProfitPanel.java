@@ -164,5 +164,16 @@ public class MaximizeProfitPanel extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Prices optimized for maximum profit!");
     }
 
-    
+    private void viewResults() {
+        DefaultTableModel model = (DefaultTableModel) MaximizeProfitTable.getModel();
+        double totalImpact = 0.0;
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            double impact = (double) model.getValueAt(i, 4);
+            totalImpact += impact;
+        }
+
+        DisplayResultsArea.setText("Total Revenue Impact: $" + totalImpact);
+    }
+
 }
