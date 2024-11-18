@@ -133,5 +133,32 @@ public class FinalReportPanel extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Report reset successfully!");
     }
 
-    
+    public void refreshData() {
+    DefaultTableModel model = (DefaultTableModel) FinalReportTable.getModel();
+    model.setRowCount(0); 
+
+    for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
+        for (Product product : supplier.getProductCatalog().getProductList()) {
+
+            double revenueBeforeAdjustment = product.getTargetPrice() * product.getSalesVolume();
+
+           
+            double revenueAfterAdjustment = product.getActualPrice() * product.getSalesVolume();
+
+            Object[] row = {
+                product.getName(),                        // Product Name
+                product.getFloorPrice(),                // Original Target Price
+                product.getTargetPrice(),                // Adjusted Target Price
+                product.getSalesBelowTarget(),           // Sales Below Target
+                product.getSalesAboveTarget(),
+                revenueAfterAdjustment,
+                revenueBeforeAdjustment
+                
+                
+                
+            };
+            model.addRow(row);
+        }
+    }
+}
 }
