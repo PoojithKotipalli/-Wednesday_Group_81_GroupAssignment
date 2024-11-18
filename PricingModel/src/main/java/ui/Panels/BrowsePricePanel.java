@@ -154,6 +154,31 @@ public class BrowsePricePanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+    private void populateTable() {
+    DefaultTableModel model = (DefaultTableModel) PriceTabel.getModel();
+    model.setRowCount(0); 
+
+    for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
+        for (Product product : supplier.getProductCatalog().getProductList()) {
+            
+            double actualPrice = product.getActualPrice(); 
+            double targetPrice = product.getTargetPrice(); 
+
+            
+            double totalSalesRevenue = targetPrice * product.getSalesVolume();
+
+            Object[] row = {
+                product.getName(),           
+                supplier.getName(),          
+                product.getFloorPrice(),     
+                targetPrice,                 
+                product.getSalesVolume(),    
+                totalSalesRevenue            
+            };
+            model.addRow(row);
+        }
+    }
+}
 
    
 }
