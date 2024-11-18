@@ -176,4 +176,11 @@ public class MaximizeProfitPanel extends javax.swing.JPanel {
         DisplayResultsArea.setText("Total Revenue Impact: $" + totalImpact);
     }
 
+    private void resetTable() {
+        refreshData(); 
+        JOptionPane.showMessageDialog(this, "Table reset successfully!");
+        DisplayResultsArea.setText("");
+    }
+
+    
 }
