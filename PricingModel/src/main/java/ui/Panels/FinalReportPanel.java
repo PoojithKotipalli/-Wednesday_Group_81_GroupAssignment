@@ -111,7 +111,7 @@ public class FinalReportPanel extends javax.swing.JPanel {
 
     private void GenerateReportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateReportBtnActionPerformed
         // TODO add your handling code here:
-       
+        refreshData();
     }//GEN-LAST:event_GenerateReportBtnActionPerformed
 
     private void ResetReportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetReportBtnActionPerformed
