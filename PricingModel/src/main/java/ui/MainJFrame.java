@@ -168,7 +168,8 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void SimulationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulationBtnActionPerformed
         // TODO add your handling code here:
-        
+        java.awt.CardLayout card = (java.awt.CardLayout) ContentPanel.getLayout();
+        card.show(ContentPanel, "SimulationPanel");
     }//GEN-LAST:event_SimulationBtnActionPerformed
 
     private void MaximizeProfitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MaximizeProfitBtnActionPerformed
