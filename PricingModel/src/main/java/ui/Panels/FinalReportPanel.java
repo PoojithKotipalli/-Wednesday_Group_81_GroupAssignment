@@ -4,12 +4,10 @@
  */
 package ui.Panels;
 
-import java.util.function.Supplier;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Business.Business;
 import model.ProductManagement.Product;
-import model.Supplier.Supplier;
 
 /**
  *
@@ -127,22 +125,22 @@ public class FinalReportPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-    private void resetReport() {
+   private void resetReport() {
         DefaultTableModel model = (DefaultTableModel) FinalReportTable.getModel();
-        model.setRowCount(0); 
+        model.setRowCount(0); // Clear all rows
         JOptionPane.showMessageDialog(this, "Report reset successfully!");
     }
 
     public void refreshData() {
     DefaultTableModel model = (DefaultTableModel) FinalReportTable.getModel();
-    model.setRowCount(0); 
+    model.setRowCount(0); // Clear existing rows
 
-    for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
+    for (model.Supplier.Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
         for (Product product : supplier.getProductCatalog().getProductList()) {
-
+            // Revenue Before Adjustment: Based on original target price
             double revenueBeforeAdjustment = product.getTargetPrice() * product.getSalesVolume();
 
-           
+            // Revenue After Adjustment: Based on actual price
             double revenueAfterAdjustment = product.getActualPrice() * product.getSalesVolume();
 
             Object[] row = {

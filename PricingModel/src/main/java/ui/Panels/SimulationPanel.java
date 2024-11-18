@@ -135,20 +135,20 @@ public class SimulationPanel extends javax.swing.JPanel {
 
    public void refreshData() {
     DefaultTableModel model = (DefaultTableModel) SimulationTable.getModel();
-    model.setRowCount(0); 
+    model.setRowCount(0); // Clear the table
 
     for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
         for (Product product : supplier.getProductCatalog().getProductList()) {
-            double targetPrice = product.getTargetPrice();
-            double revenue = targetPrice * product.getSalesVolume(); 
-            double profitMargin = revenue - (product.getFloorPrice() * product.getSalesVolume());
+            double targetPrice = product.getTargetPrice(); // Fetch updated Target Price
+            double revenue = targetPrice * product.getSalesVolume(); // Calculate revenue dynamically
+            double profitMargin = revenue - (product.getFloorPrice() * product.getSalesVolume()); // Calculate profit margin
 
             Object[] row = {
-                product.getName(),         
-                targetPrice,               
-                product.getSalesVolume(),  
-                revenue,                   
-                profitMargin               /
+                product.getName(),         // Product Name
+                targetPrice,               // Updated Target Price
+                product.getSalesVolume(),  // Sales Volume
+                revenue,                   // Revenue
+                profitMargin               // Profit Margin
             };
             model.addRow(row);
         }
