@@ -15,23 +15,25 @@ import model.Supplier.Supplier;
  * @author Poojith K
  */
 public class AdjustPricesPanel extends javax.swing.JPanel {
+
     private Business business;
     private BrowsePricePanel browsePricePanel;
     private SimulationPanel simulationPanel;
     private MaximizeProfitPanel maximizeProfitPanel;
     private FinalReportPanel finalReportPanel;
+
     /**
      * Creates new form AdjustPricesPanel
      */
     public AdjustPricesPanel(Business business, SimulationPanel simulationPanel, MaximizeProfitPanel maximizeProfitPanel,
-                             BrowsePricePanel browsePricePanel, FinalReportPanel finalReportPanel) {
+            BrowsePricePanel browsePricePanel, FinalReportPanel finalReportPanel) {
         this.business = business;
         this.simulationPanel = simulationPanel;
         this.maximizeProfitPanel = maximizeProfitPanel;
         this.browsePricePanel = browsePricePanel;
         this.finalReportPanel = finalReportPanel;
         initComponents();
-        ModeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lower Prices", "Higher Prices" }));
+        ModeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Lower Prices", "Higher Prices"}));
         populateTable("Lower Prices");
     }
 
@@ -155,77 +157,77 @@ public class AdjustPricesPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
     private void populateTable(String mode) {
-    DefaultTableModel model = (DefaultTableModel) AdjustPricesTable.getModel();
-    model.setRowCount(0); // Clear existing rows
-
-    for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
-        for (Product product : supplier.getProductCatalog().getProductList()) {
-            // Always use the saved Target Price from the Product object
-            double currentTargetPrice = product.getTargetPrice();
-            double adjustedTargetPrice;
-
-            if (mode.equals("Lower Prices") && currentTargetPrice > product.getFloorPrice()) {
-                adjustedTargetPrice = Math.max(currentTargetPrice - 5.0, product.getFloorPrice());
-            } else if (mode.equals("Higher Prices") && currentTargetPrice < product.getCeilingPrice()) {
-                adjustedTargetPrice = Math.min(currentTargetPrice + 5.0, product.getCeilingPrice());
-            } else {
-                // Skip products that do not need adjustment in the selected mode
-                continue;
-            }
-
-            // Populate the table
-            Object[] row = {
-                product.getName(),                      // Product Name
-                supplier.getName(),                     // Supplier Name
-                product.getFloorPrice(),               // Actual Price (unchanged)
-                currentTargetPrice,                     // Current Target Price
-                mode.equals("Lower Prices") ? 
-                    product.getNumberOfProductSalesBelowTarget() : 
-                    product.getNumberOfProductSalesAboveTarget(), // Sales Below/Above Target
-                adjustedTargetPrice                     // Adjusted Target Price
-            };
-            model.addRow(row);
-        }
-    }
-}
-
-        private void applyAdjustments() {
-    DefaultTableModel model = (DefaultTableModel) AdjustPricesTable.getModel();
-    int rowCount = model.getRowCount();
-
-    for (int i = 0; i < rowCount; i++) {
-        String productName = (String) model.getValueAt(i, 0);
-        double newTargetPrice = (double) model.getValueAt(i, 5); // Adjusted target price column
+        DefaultTableModel model = (DefaultTableModel) AdjustPricesTable.getModel();
+        model.setRowCount(0); // Clear existing rows
 
         for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
             for (Product product : supplier.getProductCatalog().getProductList()) {
-                if (product.getName().equals(productName)) {
-                    // Update only the Target Price
-                    product.setTargetPrice(newTargetPrice);
+                // Always use the saved Target Price from the Product object
+                double currentTargetPrice = product.getTargetPrice();
+                double adjustedTargetPrice;
 
-                    // Debug log
-                    System.out.println("Updated Target Price for " + product.getName() + ": " + product.getTargetPrice());
+                if (mode.equals("Lower Prices") && currentTargetPrice > product.getFloorPrice()) {
+                    adjustedTargetPrice = Math.max(currentTargetPrice - 5.0, product.getFloorPrice());
+                } else if (mode.equals("Higher Prices") && currentTargetPrice < product.getCeilingPrice()) {
+                    adjustedTargetPrice = Math.min(currentTargetPrice + 5.0, product.getCeilingPrice());
+                } else {
+                    // Skip products that do not need adjustment in the selected mode
+                    continue;
+                }
 
-                    // Calculate dynamically for reporting purposes
-                    int salesBelowTarget = product.getNumberOfProductSalesBelowTarget();
-                    int salesAboveTarget = product.getNumberOfProductSalesAboveTarget();
-                    double revenueBefore = product.getActualPrice() * product.getSalesVolume(); // Based on Actual Price
-                    double revenueAfter = newTargetPrice * product.getSalesVolume(); // Based on updated Target Price
+                // Populate the table
+                Object[] row = {
+                    product.getName(), // Product Name
+                    supplier.getName(), // Supplier Name
+                    product.getFloorPrice(), // Actual Price (unchanged)
+                    currentTargetPrice, // Current Target Price
+                    mode.equals("Lower Prices")
+                    ? product.getNumberOfProductSalesBelowTarget()
+                    : product.getNumberOfProductSalesAboveTarget(), // Sales Below/Above Target
+                    adjustedTargetPrice // Adjusted Target Price
+                };
+                model.addRow(row);
+            }
+        }
+    }
 
-                    // Update dynamic values for FinalReportPanel
-                    product.setSalesBelowTarget(salesBelowTarget);
-                    product.setSalesAboveTarget(salesAboveTarget);
-                    product.setRevenueBeforeAdjustment(revenueBefore);
-                    product.setRevenueAfterAdjustment(revenueAfter);
+    private void applyAdjustments() {
+        DefaultTableModel model = (DefaultTableModel) AdjustPricesTable.getModel();
+        int rowCount = model.getRowCount();
 
-                    break;
+        for (int i = 0; i < rowCount; i++) {
+            String productName = (String) model.getValueAt(i, 0);
+            double newTargetPrice = (double) model.getValueAt(i, 5); // Adjusted target price column
+
+            for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
+                for (Product product : supplier.getProductCatalog().getProductList()) {
+                    if (product.getName().equals(productName)) {
+                        // Update only the Target Price
+                        product.setTargetPrice(newTargetPrice);
+
+                        // Debug log
+                        System.out.println("Updated Target Price for " + product.getName() + ": " + product.getTargetPrice());
+
+                        // Calculate dynamically for reporting purposes
+                        int salesBelowTarget = product.getNumberOfProductSalesBelowTarget();
+                        int salesAboveTarget = product.getNumberOfProductSalesAboveTarget();
+                        double revenueBefore = product.getActualPrice() * product.getSalesVolume(); // Based on Actual Price
+                        double revenueAfter = newTargetPrice * product.getSalesVolume(); // Based on updated Target Price
+
+                        // Update dynamic values for FinalReportPanel
+                        product.setSalesBelowTarget(salesBelowTarget);
+                        product.setSalesAboveTarget(salesAboveTarget);
+                        product.setRevenueBeforeAdjustment(revenueBefore);
+                        product.setRevenueAfterAdjustment(revenueAfter);
+
+                        break;
+                    }
                 }
             }
         }
     }
-}
 
-      private void saveChanges() {
+    private void saveChanges() {
         applyAdjustments();
 
         // Notify other panels to refresh their data
@@ -236,15 +238,27 @@ public class AdjustPricesPanel extends javax.swing.JPanel {
             maximizeProfitPanel.refreshData();
         }
         if (browsePricePanel != null) {
-            browsePricePanel.refreshData(); 
+            browsePricePanel.refreshData();
         }
         if (finalReportPanel != null) {
-            finalReportPanel.refreshData(); 
+            finalReportPanel.refreshData();
         }
 
         JOptionPane.showMessageDialog(this, "Changes saved successfully!");
     }
 
+    public void updatePricesFromMaximizeProfit(String productName, double newTargetPrice) {
+        for (Supplier supplier : business.getSupplierDirectory().getSuplierList()) {
+            for (Product product : supplier.getProductCatalog().getProductList()) {
+                if (product.getName().equals(productName)) {
+                    product.setTargetPrice(newTargetPrice); // Update Target Price
+                    break;
+                }
+            }
+        }
+
+        // Refresh the table with the updated prices
+        populateTable((String) ModeComboBox.getSelectedItem());
+    }
+
 }
-
-
