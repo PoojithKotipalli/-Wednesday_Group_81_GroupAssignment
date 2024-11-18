@@ -174,7 +174,8 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void MaximizeProfitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MaximizeProfitBtnActionPerformed
         // TODO add your handling code here:
-        
+        java.awt.CardLayout card = (java.awt.CardLayout) ContentPanel.getLayout();
+        card.show(ContentPanel, "MaximizeProfitPanel");
     }//GEN-LAST:event_MaximizeProfitBtnActionPerformed
 
     private void FinalReportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinalReportBtnActionPerformed
